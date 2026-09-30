@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,5 +49,4 @@ return [
     'mod_GeoIP_DataSource'              => 'Источник данных',
     'mod_GeoIP_DataSourceDBIP'          => 'DB-IP Lite (рекомендуется)',
     'mod_GeoIP_DataSourceRIR'           => 'RIR delegation files',
-    'mod_GeoIP_DataSourceIpdeny'        => 'ipdeny.com (агрегированные)',
 ];

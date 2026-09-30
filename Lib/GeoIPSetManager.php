@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 
 namespace Modules\ModuleGeoIP\Lib;
 
-use MikoPBX\Core\System\Processes;
-use MikoPBX\Core\System\Util;
+use DzvinPBX\Core\System\Processes;
+use DzvinPBX\Core\System\Util;
 
 /**
  * Manages ipset sets for GeoIP blocking.

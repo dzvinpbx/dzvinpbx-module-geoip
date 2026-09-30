@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,17 +19,27 @@
 
 namespace Modules\ModuleGeoIP\Setup;
 
-use MikoPBX\Common\Models\PbxSettings;
-use MikoPBX\Modules\Setup\PbxExtensionSetupBase;
+use DzvinPBX\Common\Models\PbxSettings;
+use DzvinPBX\Modules\Setup\PbxExtensionSetupBase;
+use Modules\ModuleGeoIP\Models\GeoFilterCountries;
 
 class PbxExtensionSetup extends PbxExtensionSetupBase
 {
+    /**
+     * Countries blocked by default on a fresh install: Russia, China, Iran.
+     * Ukraine must never appear in this list.
+     */
+    public const DEFAULT_BLOCKED_COUNTRIES = ['RU', 'CN', 'IR'];
+
     /**
      * Install module database tables and register the module.
      */
     public function installDB(): bool
     {
         $result = $this->createSettingsTableByModelsAnnotations();
+        if ($result) {
+            $result = $this->seedDefaultBlockedCountries();
+        }
         if ($result) {
             $result = $this->registerNewModule();
         }
@@ -59,5 +69,29 @@ class PbxExtensionSetup extends PbxExtensionSetupBase
         ];
         $menuSettings->value = json_encode($value);
         return $menuSettings->save();
+    }
+
+    /**
+     * Pre-select the default blocked countries when the module is installed
+     * for the first time. An existing country list is never touched, so
+     * reinstalling or upgrading keeps the administrator's choice.
+     */
+    private function seedDefaultBlockedCountries(): bool
+    {
+        if (GeoFilterCountries::count() > 0) {
+            return true;
+        }
+        foreach (self::DEFAULT_BLOCKED_COUNTRIES as $countryCode) {
+            if ($countryCode === 'UA') {
+                continue;
+            }
+            $record = new GeoFilterCountries();
+            $record->country_code = $countryCode;
+            $record->blocked = '1';
+            if (!$record->save()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

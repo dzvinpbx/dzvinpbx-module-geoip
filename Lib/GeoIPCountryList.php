@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,12 +37,12 @@ class GeoIPCountryList
     private static $flags = null;
 
     /**
-     * Prioritized country codes (from MikoPBX LanguageProvider languages).
+     * Prioritized country codes (from DzvinPBX LanguageProvider languages).
      * These appear first in the UI country list.
      */
     private const PRIORITIZED = [
-        'GB', 'RU', 'DE', 'DK', 'ES', 'GR', 'FR', 'IT', 'JP',
-        'NL', 'PL', 'PT', 'RO', 'SE', 'CZ', 'TR', 'UA', 'VN',
+        'UA', 'GB', 'DE', 'DK', 'ES', 'GR', 'FR', 'IT', 'JP',
+        'NL', 'PL', 'PT', 'RO', 'SE', 'CZ', 'TR', 'RU', 'VN',
         'CN', 'KR', 'TH', 'GE', 'AZ', 'KZ', 'US', 'BR', 'FI',
         'NO', 'HU',
     ];

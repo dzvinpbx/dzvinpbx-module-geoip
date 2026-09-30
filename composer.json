@@ -1,6 +1,6 @@
 {
-    "name": "mikopbx/module-geoip",
-    "description": "GeoIP filtering module for MikoPBX - blocks traffic by country using ipset",
+    "name": "dzvinpbx/module-geoip",
+    "description": "GeoIP filtering module for Dzvin PBX - blocks traffic by country using ipset",
     "type": "library",
     "require": {
         "php": ">=8.0",
@@ -10,5 +10,6 @@
         "psr-4": {
             "Modules\\ModuleGeoIP\\": ""
         }
-    }
+    },
+    "license": "GPL-3.0-or-later"
 }

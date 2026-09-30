@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 namespace Modules\ModuleGeoIP\Lib\RestAPI;
 
-use MikoPBX\PBXCoreREST\Lib\PBXApiResult;
+use DzvinPBX\PBXCoreREST\Lib\PBXApiResult;
 use Modules\ModuleGeoIP\Lib\RestAPI\GeoIP\GetListAction;
 use Modules\ModuleGeoIP\Lib\RestAPI\GeoIP\SaveAction;
 use Modules\ModuleGeoIP\Lib\RestAPI\GeoIP\GetStatusAction;

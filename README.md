@@ -1,64 +1,47 @@
-# ModuleGeoIP — Geo-фильтрация для MikoPBX
+# GeoIP Filter Module for Dzvin PBX
 
-<p align="center">
-  <img src="public/assets/img/logo.svg" alt="ModuleGeoIP" width="128">
-</p>
+[![GitHub release](https://img.shields.io/github/v/release/dzvinpbx/dzvinpbx-module-geoip)](https://github.com/dzvinpbx/dzvinpbx-module-geoip/releases)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-Модуль блокирует входящие соединения к вашей АТС из выбранных стран. Защищает от SIP-сканеров, брутфорса и нежелательных звонков, приходящих с IP-адресов заблокированных регионов.
+**[Українською](README.uk.md)** | **English**
 
-## Зачем это нужно
+The module blocks incoming connections to your PBX from selected countries, which protects against SIP scanners, password brute-forcing and unwanted calls from blocked regions.
 
-Открытая в интернет АТС постоянно получает сотни попыток подключения со всего мира — сканеры ищут уязвимые SIP-серверы, подбирают пароли к внутренним номерам, пытаются совершать звонки за ваш счёт. Большинство таких атак идёт из стран, с которыми у вас нет телефонных связей.
+> This is a Dzvin PBX fork of the MikoPBX **ModuleGeoIP** module - see [Origin](#origin).
 
-GeoIP-фильтрация позволяет заблокировать целые страны одним кликом — все IP-адреса из этих стран будут отброшены ещё до того, как достигнут SIP-сервера.
+## Default blocked countries
 
-## Возможности
+On a fresh install the module pre-selects **Russia (RU), China (CN) and Iran (IR)** for blocking. Ukraine is never blocked by default and is listed first in the country list. Change the selection in the module UI; reinstalling or upgrading keeps a saved selection. Filtering takes effect once the module is enabled.
 
-- **Блокировка по странам** — выберите страны, входящие соединения из которых нужно заблокировать
-- **249 стран** — полный список по стандарту ISO 3166-1
-- **IPv4 + IPv6** — блокировка работает для обоих протоколов
-- **Фильтр и поиск** — быстро находите нужную страну в списке, фильтруйте по статусу (заблокированные / разрешённые)
-- **Массовое управление** — заблокируйте или разблокируйте все страны одной кнопкой
-- **Автоматическое обновление** — списки IP-адресов обновляются раз в неделю
-- **Обновление вручную** — кнопка «Обновить сейчас» с индикатором прогресса
-- **Безопасность** — правила вашего файрвола и SIP-провайдеров имеют приоритет над GeoIP-блокировкой, поэтому доверенные адреса никогда не будут заблокированы
+## Features
 
-## Установка
+- Block by country (all 249 ISO 3166-1 countries), IPv4 and IPv6
+- Search and status filter, block/unblock all
+- Weekly automatic update of the address lists, "Update now" with progress
+- Your firewall rules and SIP provider addresses take precedence over the GeoIP block, so trusted addresses are never blocked
 
-1. Перейдите в **Модули → Маркетплейс модулей** в веб-интерфейсе MikoPBX
-2. Найдите **GeoIP фильтрация** и нажмите **Установить**
-3. После установки перейдите в **Сеть и Firewall → GeoIP фильтрация**
-4. Включите модуль переключателем **Модуль включён**
-5. Выберите страны для блокировки и нажмите **Сохранить**
+## How it works
 
-Первое обновление списков IP-адресов начнётся автоматически после включения модуля.
+Blocking uses kernel `ipset` sets and DROP rules placed after all allow rules of the PBX firewall: established connections, your firewall subnets and SIP provider addresses are passed first, then the GeoIP filter is applied.
 
-## Как это работает
+## Requirements
 
-Модуль использует технологию **ipset** — высокопроизводительный механизм ядра Linux для работы с большими списками IP-адресов. Это позволяет проверять сотни тысяч подсетей практически мгновенно, без влияния на производительность АТС.
+- Dzvin PBX 2026.1.223 or newer
+- `ipset` support in the Linux kernel
 
-### Приоритет правил
+## Data sources
 
-Блокировка GeoIP применяется **после** всех разрешающих правил:
+No MIKO-hosted services, account or licence key are needed:
 
-1. Установленные соединения — пропускаются
-2. Правила файрвола (ваши подсети) — пропускаются
-3. IP-адреса SIP-провайдеров — пропускаются
-4. **GeoIP-фильтр — блокировка по стране**
+- **DB-IP Lite (country)** - default. A copy is bundled (`db/dbip-country-lite.csv.gz`), so initial data works offline; a newer one is fetched from `download.db-ip.com` when the network is available. Licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) - **IP Geolocation by [DB-IP](https://db-ip.com)** (shown in the module UI).
+- **RIR delegation files** - public statistics files of the regional internet registries.
 
-Это значит, что если IP-адрес вашего SIP-провайдера находится в заблокированной стране, он всё равно будет работать.
+The `ipdeny.com` source of the original module was removed because its data has no explicit open licence. MaxMind GeoLite2 (account, licence key and its own EULA) is not used. To refresh the bundled copy run `scripts/update-offline-db.sh`.
 
-## Системные требования
+## License
 
-- MikoPBX **2024.1.114** или новее
-- Поддержка **ipset** в ядре Linux (доступно во всех стандартных сборках MikoPBX)
+GPL-3.0-or-later - see [LICENSE](LICENSE). DB-IP Lite data is CC BY 4.0.
 
-## Источник данных
+## Origin
 
-Списки IP-адресов по странам загружаются с [ipdeny.com](https://www.ipdeny.com) — бесплатный источник агрегированных CIDR-блоков. Данные обновляются автоматически раз в неделю.
-
-## Лицензия
-
-Модуль распространяется на условиях GNU General Public License v3.0.
-
-Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
+Based on [`mikopbx/ModuleGeoIP`](https://github.com/mikopbx/ModuleGeoIP) `v1.2` (commit `c98679e`), (c) 2017-2026 Alexey Portnov and Nikolay Beketov, GPL-3.0. The fork renames the PBX core namespace the module depends on (`MikoPBX\` to `DzvinPBX\`), sets the default blocked countries (RU, CN, IR), drops the `ipdeny.com` source, completes the Ukrainian UI translation and adapts the release process. Original copyright headers are kept in every source file. The core this module is built for is [MikoPBX Core](https://github.com/mikopbx/Core).

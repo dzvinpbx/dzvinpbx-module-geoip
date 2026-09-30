@@ -17,7 +17,6 @@
                 <div class="menu">
                     <div class="item" data-value="dbip">{{ t._('mod_GeoIP_DataSourceDBIP') }}</div>
                     <div class="item" data-value="rir">{{ t._('mod_GeoIP_DataSourceRIR') }}</div>
-                    <div class="item" data-value="ipdeny">{{ t._('mod_GeoIP_DataSourceIpdeny') }}</div>
                 </div>
             </div>
         </div>
@@ -47,6 +46,11 @@
         <tbody>
         </tbody>
     </table>
+
+    <div class="ui tiny basic segment">
+        <a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation by DB-IP</a>
+        (CC BY 4.0)
+    </div>
 
     {{ partial("partials/submitbutton",['indexurl':'pbx-extension-modules/index/']) }}
 </form>

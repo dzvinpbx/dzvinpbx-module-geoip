@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 namespace Modules\ModuleGeoIP\Lib\RestAPI\GeoIP;
 
-use MikoPBX\PBXCoreREST\Lib\PBXApiResult;
+use DzvinPBX\PBXCoreREST\Lib\PBXApiResult;
 use Modules\ModuleGeoIP\Lib\GeoIPCountryList;
 use Modules\ModuleGeoIP\Models\GeoFilterCountries;
 use Modules\ModuleGeoIP\Models\ModuleGeoIP;
@@ -92,7 +92,7 @@ class GetListAction
                 'statusFilter' => $statusFilter,
             ];
         } catch (\Throwable $e) {
-            \MikoPBX\Core\System\Util::sysLogMsg(__CLASS__, 'Failed to get country list: ' . $e->getMessage());
+            \DzvinPBX\Core\System\Util::sysLogMsg(__CLASS__, 'Failed to get country list: ' . $e->getMessage());
             $result->success = false;
             $result->messages[] = 'Failed to get country list';
         }

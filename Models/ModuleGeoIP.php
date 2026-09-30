@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 namespace Modules\ModuleGeoIP\Models;
 
-use MikoPBX\Modules\Models\ModulesModelsBase;
+use DzvinPBX\Modules\Models\ModulesModelsBase;
 
 class ModuleGeoIP extends ModulesModelsBase
 {
@@ -43,7 +43,7 @@ class ModuleGeoIP extends ModulesModelsBase
     public $statusFilter = 'all';
 
     /**
-     * CIDR data source: dbip, rir, ipdeny
+     * CIDR data source: dbip, rir
      * @Column(type="string", nullable=true, default="dbip")
      */
     public $dataSource = 'dbip';

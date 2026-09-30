@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 
 namespace Modules\ModuleGeoIP\Lib;
 
-use MikoPBX\Common\Providers\ManagedCacheProvider;
-use MikoPBX\Core\System\Util;
+use DzvinPBX\Common\Providers\ManagedCacheProvider;
+use DzvinPBX\Core\System\Util;
 use Phalcon\Di\Di;
 
 /**
@@ -150,7 +150,7 @@ class GeoIPCountryLookup
      */
     public static function getDataDir(): string
     {
-        return '/storage/usbdisk1/mikopbx/tmp/geoip';
+        return '/storage/usbdisk1/dzvinpbx/tmp/geoip';
     }
 
     /**

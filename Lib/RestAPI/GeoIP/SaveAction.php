@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 
 namespace Modules\ModuleGeoIP\Lib\RestAPI\GeoIP;
 
-use MikoPBX\Core\System\Util;
-use MikoPBX\PBXCoreREST\Lib\PBXApiResult;
-use MikoPBX\Modules\PbxExtensionUtils;
+use DzvinPBX\Core\System\Util;
+use DzvinPBX\PBXCoreREST\Lib\PBXApiResult;
+use DzvinPBX\Modules\PbxExtensionUtils;
 use Modules\ModuleGeoIP\Lib\GeoIPCountryList;
 use Modules\ModuleGeoIP\Lib\GeoIPCountryLookup;
 use Modules\ModuleGeoIP\Lib\GeoIPSetManager;
@@ -47,7 +47,7 @@ class SaveAction
                     $settings->statusFilter = $statusFilter;
                 }
                 $dataSource = $data['dataSource'] ?? null;
-                if ($dataSource !== null && in_array($dataSource, ['dbip', 'rir', 'ipdeny'], true)) {
+                if ($dataSource !== null && in_array($dataSource, ['dbip', 'rir'], true)) {
                     $settings->dataSource = $dataSource;
                 }
                 $settings->save();
@@ -112,7 +112,7 @@ class SaveAction
                     }
 
                     // Reload firewall so onAfterIptablesReload injects chain rules
-                    $iptablesConfClass = '\MikoPBX\Core\System\Configs\IptablesConf';
+                    $iptablesConfClass = '\DzvinPBX\Core\System\Configs\IptablesConf';
                     if (class_exists($iptablesConfClass) && method_exists($iptablesConfClass, 'reloadFirewall')) {
                         $iptablesConfClass::reloadFirewall();
                     }

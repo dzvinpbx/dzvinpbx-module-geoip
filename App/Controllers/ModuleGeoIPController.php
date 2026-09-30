@@ -1,6 +1,6 @@
 <?php
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2026 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 
 namespace Modules\ModuleGeoIP\App\Controllers;
 
-use MikoPBX\AdminCabinet\Controllers\BaseController;
-use MikoPBX\Modules\PbxExtensionUtils;
+use DzvinPBX\AdminCabinet\Controllers\BaseController;
+use DzvinPBX\Modules\PbxExtensionUtils;
 use Modules\ModuleGeoIP\App\Forms\ModuleGeoIPForm;
 use Modules\ModuleGeoIP\Models\ModuleGeoIP;
 
