@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: none
+
+      - name: PHP syntax check
+        run: |
+          set -o pipefail
+          find . -name '*.php' -not -path '*/vendor/*' -not -path './.git/*' -print0 | xargs -0 -n1 php -l | { grep -v '^No syntax errors detected' || true; }
+
+      - name: Check translation files
+        run: php .github/scripts/check-messages.php Messages
+
+      - name: JavaScript syntax check
+        run: |
+          shopt -s nullglob
+          for f in public/assets/js/src/*.js; do
+            echo "node --check $f"
+            node --check "$f"
+          done
