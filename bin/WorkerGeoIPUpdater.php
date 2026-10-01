@@ -120,6 +120,76 @@ class WorkerGeoIPUpdater
         return 0;
     }
 
+    private function getBlockedCodes(): array
+    {
+        $codes = [];
+        $records = GeoFilterCountries::find([
+            'conditions' => 'blocked = :blocked:',
+            'bind'       => ['blocked' => '1'],
+        ]);
+        foreach ($records as $record) {
+            $codes[] = strtoupper($record->country_code);
+        }
+        return $codes;
+    }
+
+    private function getAllowedCodes(): array
+    {
+        $codes = [];
+        $records = GeoFilterCountries::find([
+            'conditions' => 'blocked = :blocked:',
+            'bind'       => ['blocked' => '0'],
+        ]);
+        foreach ($records as $record) {
+            $codes[] = strtoupper($record->country_code);
+        }
+        return $codes;
+    }
+
+    private function reloadFirewall(): void
+    {
+        $iptablesConfClass = '\DzvinPBX\Core\System\Configs\IptablesConf';
+        if (class_exists($iptablesConfClass) && method_exists($iptablesConfClass, 'reloadFirewall')) {
+            $iptablesConfClass::reloadFirewall();
+        }
+    }
+
+    private function updateProgress(int $progress): void
+    {
+        try {
+            $di = Di::getDefault();
+            if ($di !== null && $di->has('managedCache')) {
+                $di->getShared('managedCache')->set('GeoIP:progress', $progress, 600);
+            }
+        } catch (\Throwable $e) {
+            Util::sysLogMsg(__CLASS__, 'Failed to update progress: ' . $e->getMessage());
+        }
+    }
+
+    private function clearProgress(): void
+    {
+        try {
+            $di = Di::getDefault();
+            if ($di !== null && $di->has('managedCache')) {
+                $di->getShared('managedCache')->delete('GeoIP:progress');
+            }
+        } catch (\Throwable $e) {
+            // ignore
+        }
+    }
+
+    private function clearUpdateRequestedFlag(): void
+    {
+        try {
+            $di = Di::getDefault();
+            if ($di !== null && $di->has('managedCache')) {
+                $di->getShared('managedCache')->delete('GeoIP:updateRequested');
+            }
+        } catch (\Throwable $e) {
+            // ignore
+        }
+    }
+
     /**
      * Detect if another updater process is already running by looking at process titles.
      */
