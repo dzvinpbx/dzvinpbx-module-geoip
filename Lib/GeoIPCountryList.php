@@ -33,6 +33,9 @@ class GeoIPCountryList
     /** @var array|null Cached country data (Russian) */
     private static $countriesRu = null;
 
+    /** @var array|null Cached country data (Ukrainian) */
+    private static $countriesUk = null;
+
     /** @var array|null Cached flag mappings */
     private static $flags = null;
 
@@ -99,6 +102,9 @@ class GeoIPCountryList
         if ($lang === 'ru' && !empty(self::$countriesRu[$cc])) {
             return self::$countriesRu[$cc];
         }
+        if ($lang === 'uk' && !empty(self::$countriesUk[$cc])) {
+            return self::$countriesUk[$cc];
+        }
         return self::$countries[$cc] ?? $cc;
     }
 
@@ -112,9 +118,12 @@ class GeoIPCountryList
             $data = require $dataFile;
             self::$countries = $data['countries'] ?? [];
             self::$countriesRu = $data['countries_ru'] ?? [];
+            self::$countriesUk = $data['countries_uk'] ?? [];
             self::$flags = $data['flags'] ?? [];
         } else {
             self::$countries = [];
+            self::$countriesRu = [];
+            self::$countriesUk = [];
             self::$flags = [];
         }
     }
