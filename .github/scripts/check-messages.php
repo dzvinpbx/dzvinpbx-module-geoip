@@ -12,6 +12,10 @@ if (empty($files)) {
 $errors = 0;
 $loaded = [];
 foreach ($files as $file) {
+    // Only language files (en.php, uk.php, pt_BR.php, zh_Hans.php ...) are checked.
+    if (!preg_match('/^[a-z]{2,3}(_[A-Za-z]+)?$/', basename($file, '.php'))) {
+        continue;
+    }
     $data = (static function (string $f) {
         return include $f;
     })($file);
